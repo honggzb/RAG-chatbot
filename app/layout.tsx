@@ -3,6 +3,8 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/navigation";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +33,21 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <Navigation />
-          {children}
+          <SidebarProvider
+            style={
+              {
+                "--sidebar-width": "calc(var(--spacing) * 72)",
+                "--header-height": "calc(var(--spacing) * 12)",
+              } as React.CSSProperties
+            }>
+            <AppSidebar variant="inset" />
+            <SidebarInset>
+              <main>
+                <SidebarTrigger />
+                {children}
+              </main>
+            </SidebarInset>
+          </SidebarProvider>
         </body>
       </html>
     </ClerkProvider>
